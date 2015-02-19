@@ -10,15 +10,7 @@ public class Driver {
 		ll.addFront(25);
 		ll.addFront(24);
 		ll.addFront(21);
-		//ll.display();
-		try
-		{
-			ll.removeAtIndex(-1);
-		}
-		catch(Exception e)
-		{
-			System.out.println("You did something wrong, try again with a different index.");
-		}
-		//ll.display();
+		ll.display();
+		ll.displayInReverse();
 	}
 }

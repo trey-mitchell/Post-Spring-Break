@@ -183,4 +183,16 @@ public class LinkedList
 			return payload;
 		}
 }
+	public void displayInReverse()
+	{
+		for(int i = count -1; i >= 0; i--)
+		{
+			System.out.print(this.get(i));
+			System.out.print(" -> ");
+		}
+		System.out.print("null");
 	}
+}
+/*Add a pointer called tail that points to the end of the list.  Each Node knows about the previous node.
+Update all add and remove methods, them rewrite displayInReverse() to take advantage of new
+double-linked list*/
