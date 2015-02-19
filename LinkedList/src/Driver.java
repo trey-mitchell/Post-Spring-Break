@@ -3,7 +3,7 @@ public class Driver {
 
 	static public void main(String[] args) throws Exception
 	{
-		//test 2.0
+		//this removes the 25.
 		LinkedList ll = new LinkedList();
 		ll.addFront(21);
 		ll.addFront(22);
