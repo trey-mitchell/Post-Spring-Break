@@ -3,6 +3,7 @@ public class Driver {
 
 	static public void main(String[] args) throws Exception
 	{
+		//Still working?
 		LinkedList ll = new LinkedList();
 		ll.addFront(21);
 		ll.addFront(22);
