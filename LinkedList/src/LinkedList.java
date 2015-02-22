@@ -2,12 +2,15 @@ public class LinkedList
 {
 	private Node head;
 	private int count;
+	private Node tail;
 	
 	public LinkedList()
 	{
 		this.head = null;
 		this.count = 0;
+		this.tail = null;	
 	}
+	
 	
 	public int get(int index)
 	{
@@ -53,6 +56,7 @@ public class LinkedList
 	}
 	
 	public void addAtIndex(int payload, int index)
+
 	{
 		if(index <= 0)
 		{
@@ -74,22 +78,27 @@ public class LinkedList
 				fronTarget = fronTarget.getNextNode();
 			}
 			n.setNextNode(fronTarget);
+			n.setPrevNode(prevTarget);
+			fronTarget.setPrevNode(n);
 			prevTarget.setNextNode(n);
 			count++;
 		}
 	}
-	
+
 	public void addFront(int payload)
+	//needs update
 	{
 		Node n = new Node(payload);
 		if(head == null)
 		{
-			head = n;
+			this.head = n;
+			this.tail = n;
 		}
 		else
 		{
 			n.setNextNode(head);
-			head = n;
+			head.setPrevNode(n);
+			this.head = n;
 		}
 		this.count++;
 	}
@@ -103,15 +112,10 @@ public class LinkedList
 		}
 		else
 		{
-			//find the last node in the list
-			Node currNode = this.head;
-			while(currNode.getNextNode() != null)
-			{
-				currNode = currNode.getNextNode();
-			}
-			//currNode will point to the very last Node in the list
-			currNode.setNextNode(n);
+			this.tail.setNextNode(n);
+			n.setPrevNode(tail);
 		}
+		this.tail = n;
 		this.count++;
 	}
 	
@@ -123,12 +127,15 @@ public class LinkedList
 			}
 		Node curr = this.head;
 		head=head.getNextNode();
+		head.setPrevNode(null);
+		//new line
 		curr.setNextNode(null);
-		count--;
+		this.count--;
 		return curr.getPayload();
 	}
 	
 	public int removeEnd() throws Exception
+	//need to update tail.
 	{
 		if(head==null)
 		{
@@ -145,7 +152,10 @@ public class LinkedList
 		}
 		int payload = curr.getNextNode().getPayload();
 		count--;
+		curr.getNextNode().setPrevNode(null);
+		//make sure this works.
 		curr.setNextNode(null);
+		this.tail = curr;
 		return payload;
 	}
 	
@@ -167,6 +177,12 @@ public class LinkedList
 		{
 			throw new Exception("Cannot Remove from Index: Index Must be Greater than Zero");
 		}
+		else if(index == count -1)
+		{
+			return this.removeEnd();
+		}
+		//test this part
+		//This way nobody has to worry about changing tail
 		else
 		{
 			Node targetLead = null;
@@ -178,6 +194,8 @@ public class LinkedList
 			}
 			int payload = target.getPayload();
 			targetLead.setNextNode(target.getNextNode());
+			target.setPrevNode(null);
+			(target.getNextNode()).setPrevNode(targetLead);
 			target.setNextNode(null);
 			this.count--;
 			return payload;
@@ -185,14 +203,17 @@ public class LinkedList
 }
 	public void displayInReverse()
 	{
-		for(int i = count -1; i >= 0; i--)
+		Node n = this.tail;
+		for(int i = 0; i < count; i++)
 		{
-			System.out.print(this.get(i));
-			System.out.print(" -> ");
+			System.out.print(n.getPayload() + " ");
+			System.out.print("-> ");
+			n = n.getPrevNode();
 		}
 		System.out.print("null");
 	}
 }
-/*Add a pointer called tail that points to the end of the list.  Each Node knows about the previous node.
-Update all add and remove methods, them rewrite displayInReverse() to take advantage of new
+/*Add a pointer called tail that points to the end of the list.  
+ * Each Node knows about the previous node.
+Update all add and remove methods, then rewrite displayInReverse() to take advantage of new
 double-linked list*/
