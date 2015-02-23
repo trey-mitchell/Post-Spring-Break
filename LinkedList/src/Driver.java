@@ -12,7 +12,7 @@ public class Driver {
 		ll.addFront(25);
 		ll.addFront(26);
 		ll.display();
-		ll.removeAtIndex(2);
+		ll.removeEnd();
 		ll.display();
 		
 	}

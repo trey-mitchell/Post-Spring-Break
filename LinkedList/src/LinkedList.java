@@ -135,7 +135,6 @@ public class LinkedList
 	}
 	
 	public int removeEnd() throws Exception
-	//need to update tail.
 	{
 		if(head==null)
 		{
@@ -145,18 +144,12 @@ public class LinkedList
 		{
 			return this.removeFront();
 		}
-		Node curr = this.head;
-		for(int i = 1; i < count -1; i++)
-		{
-			curr = curr.getNextNode();
-		}
-		int payload = curr.getNextNode().getPayload();
+		Node curr = this.tail;
+		this.tail = this.tail.getPrevNode();
+		tail.setNextNode(null);
+		curr.setPrevNode(null);
 		count--;
-		curr.getNextNode().setPrevNode(null);
-		//make sure this works.
-		curr.setNextNode(null);
-		this.tail = curr;
-		return payload;
+		return curr.getPayload();
 	}
 	
 	public int removeAtIndex(int index) throws Exception
