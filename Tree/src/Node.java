@@ -72,4 +72,30 @@ public class Node {
 	public Node getRootNode() {
 		return rootNode;
 	}	
+	
+	public void visitInOrder()
+	{
+		if(this.leftNode != null)
+		{
+			this.leftNode.visitInOrder();
+		}
+		System.out.println(this.payload);
+		if(this.rightNode != null)
+		{
+			this.rightNode.visitInOrder();
+		}
+	}
+	
+	public void visitPreOrder()
+	{
+		System.out.println(this.getPayload());
+	if(this.leftNode != null)
+	{
+		this.leftNode.visitPreOrder();
+	}
+	else if(this.rightNode != null)
+	{
+		this.rightNode.visitPreOrder();
+	}
+	}
 }
