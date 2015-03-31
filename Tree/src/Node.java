@@ -1,7 +1,7 @@
 
 public class Node {
 
-	private int payload;
+	/*private int payload;
 	private Node leftNode;
 	private Node rightNode;
 	private Node rootNode;
@@ -97,5 +97,5 @@ public class Node {
 	{
 		this.rightNode.visitPreOrder();
 	}
-	}
+	}*/
 }
