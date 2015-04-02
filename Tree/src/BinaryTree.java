@@ -15,7 +15,7 @@ public class BinaryTree
 	
 	private BinaryTree(int depth, BinaryTree root)
 	{
-		this.isEmpty = false;
+		this.isEmpty = true;
 		this.leftTree = null;
 		this.rightTree = null;
 		this.depth = depth;
@@ -142,7 +142,6 @@ public class BinaryTree
 		{
 			this.payload = value;
 			this.isEmpty = false;
-			this.depth = 0;
 		}
 		else
 		{
@@ -191,7 +190,7 @@ public class BinaryTree
 	
 	private void singleRightRot()
 	{
-		if(this.leftTree.rightTree == null)
+		if(this.leftTree.rightTree == null) //if it's null, then this line is a null pointer.
 		{
 			BinaryTree rootParent = this.myRoot;
 			this.myRoot = this.leftTree;
@@ -211,9 +210,17 @@ public class BinaryTree
 	
 	private boolean leftHeavy()
 	{
-		if(this.isEmpty)
+		if(this.leftTree == null && this.rightTree == null)
 		{
 			return false;
+		}
+		else if(this.leftTree == null && this.rightTree != null)
+		{
+			return false;
+		}
+		else if(this.leftTree != null && this.rightTree ==null)
+		{
+			return true;
 		}
 		else
 		{
