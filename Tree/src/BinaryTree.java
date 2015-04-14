@@ -336,33 +336,63 @@ public class BinaryTree
 				if(this.leftTree == null)
 				{
 					//the right tree is out of balance
+					if(this.rightTree.leftTree!=null)
+					{
 					this.rightTree.rotateRight(this.rightTree.leftTree);
 					//missing a line
 					this.rightTree.rotateLeft(this.rightTree);
+					}
+					else
+					{
+						this.rightTree.rotateLeft(this.rightTree.rightTree);
+						this.rightTree.rotateLeft(this.rightTree);
+					}
 				}
 				else if(this.rightTree == null)
 				{
 					//the left tree is out of balance
+					if(this.leftTree.rightTree!=null)
+					{
 					this.leftTree.rotateLeft(this.leftTree.rightTree);
 					//missing a line
 					this.leftTree.rotateRight(this.leftTree);
-				
+					}
+					else
+					{
+						this.leftTree.rotateRight(this.leftTree.leftTree);
+						this.leftTree.rotateRight(this.leftTree);
+					}
 				}
 				else
 				{
 					//we know we have a left and a right tree
 					if(this.leftTree.getMaxDepth() > this.rightTree.getMaxDepth())
 					{
-						this.leftTree.rotateLeft(this.leftTree.rightTree);
-						//missing a line
-						this.leftTree.rotateRight(this.leftTree);
-						
-					}
-					else
-					{
+						if(this.rightTree.leftTree!=null)
+						{
 						this.rightTree.rotateRight(this.rightTree.leftTree);
 						//missing a line
 						this.rightTree.rotateLeft(this.rightTree);
+						}
+						else
+						{
+							this.rightTree.rotateLeft(this.rightTree.rightTree);
+							this.rightTree.rotateLeft(this.rightTree);
+						}
+					}
+					else
+					{
+						if(this.leftTree.rightTree!=null)
+						{
+						this.leftTree.rotateLeft(this.leftTree.rightTree);
+						//missing a line
+						this.leftTree.rotateRight(this.leftTree);
+						}
+						else
+						{
+							this.leftTree.rotateRight(this.leftTree.leftTree);
+							this.leftTree.rotateRight(this.leftTree);
+						}
 					}
 				}
 			}
