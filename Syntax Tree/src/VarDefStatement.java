@@ -7,5 +7,16 @@ public class VarDefStatement
 	{
 		this.theVarExpr = theVarExpr;
 		this.theMathExpr = theMathExpr;
+		System.out.println("You have created the master statement");
+	}
+	
+	public void setVarExpr(VarExpression varEx)
+	{
+		this.theVarExpr = varEx;
+	}
+	
+	public void setMathExpr(MathExpression mathEx)
+	{
+		this.theMathExpr = mathEx;
 	}
 }

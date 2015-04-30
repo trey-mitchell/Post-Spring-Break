@@ -5,5 +5,6 @@ public class OpExpression extends Expression
 	public OpExpression(char theOp)
 	{
 		this.theOp = theOp;
+		System.out.println("New operator created");
 	}
 }
