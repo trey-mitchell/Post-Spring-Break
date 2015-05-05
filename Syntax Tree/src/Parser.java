@@ -1,24 +1,25 @@
-
 public class Parser 
 {
 	private String theStmt;
 	private int pos; //where am I in the theStmt string
 	private static final String legalVariableCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "; 
 	private static final String legalOpCharacters = "+-*/% ";
-	private VarDefStatement varDefStmt;
+	private VarDefStatement theSytaxTree;
 	
 	public Parser(String theStmt)
 	{
 		this.theStmt = theStmt;
+		this.theSytaxTree = null;
 		this.pos = 0;
-		this.varDefStmt = new VarDefStatement(null, null);
 	}
 	
-	
-	
+	public VarDefStatement getTheSytaxTree() {
+		return theSytaxTree;
+	}
+
 	void parse()
 	{
-		this.parse_stmt();
+		this.theSytaxTree = this.parse_stmt();
 	}
 	
 	private String getNextToken(char c)
@@ -56,113 +57,71 @@ public class Parser
 		return token.trim();
 	}
 	
-	private void parse_stmt()
+	private VarDefStatement parse_stmt()
 	{
 		//Print each time it reads something like:
 		// Read: VarName = a
 		String varName = this.getNextToken(Parser.legalVariableCharacters);
 		System.out.println("Read VarName: " + varName);
-		//create the "master variable"
-		VarExpression variable = new VarExpression(varName);
-		this.varDefStmt.setVarExpr(variable);
+		VarExpression theVE = new VarExpression(varName);
 		
 		//burn past the =
 		this.getNextToken('=');
-		System.out.println("Burned: =");
-			
+		System.out.println("Burned =");
+		
 		// Reading: Math-Expr
-		this.parse_math_expr();
+		MathExpression theME = this.parse_math_expr();
 		
 		//burn past the ;
 		this.getNextToken(';');
 		System.out.println("Burned ;");
+		
+		return new VarDefStatement(theVE, theME);
 	}
 	
-	
-	private void parse_math_expr()
+	private MathExpression parse_math_expr()
 	{
-		MathExpression ourExpression = new MathExpression(null, null, null);
-		
 		String varName = this.getNextToken(Parser.legalVariableCharacters);
+		Expression leftOperand = null;
+		Expression rightOperand = null;
+		OpExpression theOpExpression = null;
+		
 		if(varName.length() == 0)
 		{
 			//we know that we are at the beginning of a paren-math-expr
 			this.getNextToken('(');
 			System.out.println("Burned (");
-			ourExpression.setLeftOperand(this.parse_math_expr_deeper());
+			leftOperand = this.parse_math_expr();
 			this.getNextToken(')');
 			System.out.println("Burned )");
 		}
 		else
 		{
 			System.out.println("Read VarName: " + varName);
-			VarExpression leftEx = new VarExpression(varName);
-			ourExpression.setLeftOperand(leftEx);
+			leftOperand = new VarExpression(varName);
 		}
 		String op = this.getNextToken(Parser.legalOpCharacters);
 		System.out.println("Read Op: " + op);
-		
-		char[] arr = op.toCharArray();
-		OpExpression opEx = new OpExpression(arr[0]);
-		ourExpression.setOperator(opEx);
+		theOpExpression = new OpExpression(op.charAt(0));
 		
 		varName = this.getNextToken(Parser.legalVariableCharacters);
 		if(varName.length() == 0)
 		{
 			//we know that we are at the beginning of a paren-math-expr
 			this.getNextToken('(');
-			ourExpression.setRightOperand(this.parse_math_expr_deeper());
+			rightOperand = this.parse_math_expr();
 			this.getNextToken(')');
 		}
 		else
 		{
 			System.out.println("Read VarName: " + varName);
-			VarExpression leftEx = new VarExpression(varName);
-			ourExpression.setLeftOperand(leftEx);
+			rightOperand = new VarExpression(varName);
 		}
-	}	
+		return new MathExpression(leftOperand, rightOperand, theOpExpression);
+	}
 	
-	private Expression parse_math_expr_deeper()
+	public void display()
 	{
-		MathExpression ourExpression = new MathExpression(null, null, null);
-		
-		String varName = this.getNextToken(Parser.legalVariableCharacters);
-		if(varName.length() == 0)
-		{
-			//we know that we are at the beginning of a paren-math-expr
-			this.getNextToken('(');
-			System.out.println("Burned (");
-			ourExpression.setLeftOperand(this.parse_math_expr_deeper());
-			this.getNextToken(')');
-			System.out.println("Burned )");
-		}
-		else
-		{
-			System.out.println("Read VarName: " + varName);
-			VarExpression leftEx = new VarExpression(varName);
-			ourExpression.setLeftOperand(leftEx);
-		}
-		String op = this.getNextToken(Parser.legalOpCharacters);
-		System.out.println("Read Op: " + op);
-		
-		char[] arr = op.toCharArray();
-		OpExpression opEx = new OpExpression(arr[0]);
-		ourExpression.setOperator(opEx);
-		
-		varName = this.getNextToken(Parser.legalVariableCharacters);
-		if(varName.length() == 0)
-		{
-			//we know that we are at the beginning of a paren-math-expr
-			this.getNextToken('(');
-			this.parse_math_expr();
-			this.getNextToken(')');
-		}
-		else
-		{
-			System.out.println("Read VarName: " + varName);
-			VarExpression leftEx = new VarExpression(varName);
-			ourExpression.setLeftOperand(leftEx);
-		}
-		return ourExpression;
-	}	
+		System.out.println(this.theSytaxTree);
+	}
 }
