@@ -1,3 +1,4 @@
+
 public class VarDefStatement extends Object
 {
 	private VarExpression theVarExpr;
@@ -11,9 +12,6 @@ public class VarDefStatement extends Object
 	
 	public String toString()
 	{
-		//write this such that it rebuilds the String version
-		//of the original statement.  You MAY NOT just use the
-		//store string variable theStmt
-		return theVarExpr.getVarName() + " = " + theMathExpr.toString();
+		return this.theVarExpr.toString() + " = " + this.theMathExpr.toString() + ";";
 	}
 }

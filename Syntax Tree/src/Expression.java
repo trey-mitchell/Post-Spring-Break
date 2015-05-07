@@ -1,14 +1,9 @@
 
-public class Expression {
-	
-	
-	public Expression()
-	{
-	}
-	
+public abstract class Expression
+{
 	public String getVarName()
 	{
-		//doesn't do anything.  Not supposed to.
-		return null;
+		return null; 
 	}
+	//stops eclipse from yelling.
 }

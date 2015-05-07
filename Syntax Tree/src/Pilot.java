@@ -1,16 +1,25 @@
+
 public class Pilot 
 {
 	public static void main(String[] args)
-	{		
-		
-		Parser p = new Parser("     a =     (a *   b) - c;");
-		Parser p2 = new Parser("a = ((a+k) * (a + (b/n))) - c;");
+	{
+		Parser p = new Parser("a=5; b=6;   apple =     (a *   7) - b;");
 		p.parse();
-		p2.parse();
-		/*	
-		Parser p = new Parser("     apple =     (a *   b) - c;");
-		p.parse();*/
-		p2.display();
+		VarDefStatement vds = p.getTheSytaxTree();
+		
+		/*
+		 * We need to be able to handle a new kind of statement.
+		 * A var def statement can now handle having a literal on
+		 * the right instead of just a math expression.  When this
+		 * occurs, that variable/lit-value pair needs to be stored
+		 * somewhere, so we can look it up later when we doMath.  You
+		 * might choose to create a VariableEnvironment object that holds
+		 * an array of Variable objects, where a Variable object
+		 * holds a variable name and a integer value.  The VariableEnv
+		 * should allow us to add variables to it, and retrieve the 
+		 * value given a variable name.  Then finish doMath to support
+		 * variables.  Note that your parser must now be able to parse
+		 * multiple statements in a row. (ie things separated by ;)
+		 */
 	}
 }
-

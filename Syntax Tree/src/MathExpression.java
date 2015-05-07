@@ -4,6 +4,7 @@ public class MathExpression extends Expression
 	private Expression leftOperand;
 	private Expression rightOperand;
 	private OpExpression operator;
+	private VarEnvironment container;
 	
 	public MathExpression(Expression leftOperand, Expression rightOperand, OpExpression operator)
 	{
@@ -11,50 +12,67 @@ public class MathExpression extends Expression
 		this.rightOperand = rightOperand;
 		this.operator = operator;
 	}
-
-
-	public void setLeftOperand(Expression leftOperand) {
+	
+	public MathExpression(Expression leftOperand, Expression rightOperand, OpExpression operator, VarEnvironment container)
+	{
 		this.leftOperand = leftOperand;
-	}
-
-	public void setRightOperand(Expression rightOperand) {
 		this.rightOperand = rightOperand;
-	}
-
-	public void setOperator(OpExpression operator) {
 		this.operator = operator;
+		this.container = container;
 	}
 	
-	public Expression getLeftOperand() {
-		return leftOperand;
-	}
-
-
-	public Expression getRightOperand() {
-		return rightOperand;
-	}
-
-
-	public OpExpression getOperator() {
-		return operator;
+	public int doMath()
+	{
+		int theLeftNum;
+		int theRightNum;
+		if(this.leftOperand instanceof VarExpression)
+		{
+			theLeftNum = container.find(this.leftOperand.getVarName());;
+		}
+		else if(this.leftOperand instanceof LitExpression)
+		{
+			theLeftNum = ((LitExpression) this.leftOperand).getTheLiteral();
+		} 
+		else
+		{
+			theLeftNum = ((MathExpression)this.leftOperand).doMath();
+		}
+		
+		if(this.rightOperand instanceof VarExpression)
+		{
+			theRightNum = container.find(this.rightOperand.getVarName());;
+		}
+		else if(this.rightOperand instanceof LitExpression)
+		{
+			theRightNum = ((LitExpression) this.rightOperand).getTheLiteral();
+		} 
+		else
+		{
+			theRightNum = ((MathExpression)this.rightOperand).doMath();
+		}
+		return this.operator.applyOperator(theLeftNum, theRightNum);
 	}
 	
 	public String toString()
 	{
-		String left = "";
-		String right = "";
-		if(this.leftOperand != null)
-			left = this.leftOperand.toString();
+		String result = "";
+		if(this.leftOperand instanceof MathExpression)
+		{
+			result += "(" + this.leftOperand.toString() + ")";
+		}
 		else
-			left = this.toString();
-		if(this.rightOperand!=null)
-			right = this.rightOperand.toString();
+		{
+			result += this.leftOperand.toString();
+		}
+		result += this.operator.toString();
+		if(this.rightOperand instanceof MathExpression)
+		{
+			result += "(" + this.rightOperand.toString() + ")";
+		}
 		else
-			right = this.toString();
-		
-		return left + operator.getTheOp() + right;
-		
+		{
+			result += this.rightOperand.toString();
+		}
+		return result;
 	}
-	
-	
 }
