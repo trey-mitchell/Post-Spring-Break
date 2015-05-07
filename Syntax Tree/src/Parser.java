@@ -76,7 +76,10 @@ public class Parser
 	
 	private VarDefStatement parse_stmt()
 	{
-		this.parse_variables();
+		if(this.colonCount > 1)
+		{
+			this.parse_variables();
+		}
 		
 		//Print each time it reads something like:
 		// Read: VarName = a
